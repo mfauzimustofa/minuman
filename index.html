@@ -391,7 +391,19 @@
 
 <!-- REKAP -->
 <div id="section-rekap" style="display:none;margin-top:24px">
-  <div id="rekap-root" class="rekap-wrap">
+  <div style="max-width:420px;margin:0 auto 12px;display:flex;justify-content:flex-end">
+  <button onclick="exportExcel()" style="
+    background:var(--card);border:1px solid var(--border);
+    color:var(--accent);border-radius:10px;
+    padding:9px 16px;font-family:'Sora',sans-serif;
+    font-size:0.78rem;font-weight:600;cursor:pointer;
+    display:flex;align-items:center;gap:7px;transition:all 0.2s;
+  " onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Export Excel
+  </button>
+</div>
+<div id="rekap-root" class="rekap-wrap">
     <div class="loading">Memuat data...</div>
   </div>
 </div>
@@ -659,6 +671,48 @@ function updateHarga() {
     }).join('');
 
     document.getElementById('rekap-root').innerHTML = html;
+  }
+
+  function exportExcel() {
+    if (!allData || allData.length === 0) {
+      showToast('Belum ada data', true); return;
+    }
+
+    // Susun data
+    const rows = [['Tanggal', 'Nama', 'Minuman', 'Jumlah', 'Harga', 'Total']];
+    allData.forEach(r => {
+      rows.push([
+        r['Tanggal'] || '',
+        r['Nama'] || '',
+        r['Minuman'] || '',
+        r['Jumlah'] || '',
+        r['Harga'] || '',
+        r['Total'] || ''
+      ]);
+    });
+
+    // Buat CSV dengan BOM agar Excel bisa baca karakter Indonesia
+    const bom = '﻿';
+    const csv = bom + rows.map(row =>
+      row.map(val => {
+        const s = String(val);
+        return s.includes(',') || s.includes('"') || s.includes('\n')
+          ? '"' + s.replace(/"/g, '""') + '"'
+          : s;
+      }).join(',')
+    ).join('\n');
+
+    // Download
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const now = new Date();
+    const tgl = now.toISOString().slice(0,10).replace(/-/g,'');
+    a.href = url;
+    a.download = `rekap-minuman-${tgl}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ File berhasil diunduh!');
   }
 
   function togglePerson(pid) {
