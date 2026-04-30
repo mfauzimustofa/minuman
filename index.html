@@ -28,30 +28,14 @@
     padding: 24px 16px 48px;
   }
 
-  .header {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  .header .icon {
-    font-size: 2.5rem;
-    margin-bottom: 8px;
-    display: block;
-  }
-
+  .header { text-align: center; margin-bottom: 32px; }
+  .header .icon { font-size: 2.5rem; margin-bottom: 8px; display: block; }
   .header h1 {
     font-family: 'Sora', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: -0.5px;
+    font-size: 1.6rem; font-weight: 700;
+    color: var(--accent); letter-spacing: -0.5px;
   }
-
-  .header p {
-    color: var(--muted);
-    font-size: 0.85rem;
-    margin-top: 4px;
-  }
+  .header p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
 
   .tabs {
     display: flex;
@@ -62,24 +46,14 @@
     max-width: 420px;
     margin: 0 auto 28px;
   }
-
   .tab {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
+    flex: 1; padding: 10px; text-align: center;
     font-family: 'Sora', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    border-radius: 9px;
-    cursor: pointer;
-    color: var(--muted);
-    transition: all 0.2s;
+    font-size: 0.78rem; font-weight: 600;
+    border-radius: 9px; cursor: pointer;
+    color: var(--muted); transition: all 0.2s;
   }
-
-  .tab.active {
-    background: var(--accent);
-    color: #0f1117;
-  }
+  .tab.active { background: var(--accent); color: #0f1117; }
 
   .card {
     background: var(--card);
@@ -90,18 +64,14 @@
     margin: 0 auto;
   }
 
-  .field {
-    margin-bottom: 20px;
-  }
+  .field { margin-bottom: 20px; }
 
   label {
     display: block;
     font-family: 'Sora', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
+    font-size: 0.78rem; font-weight: 600;
     color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
+    text-transform: uppercase; letter-spacing: 0.8px;
     margin-bottom: 8px;
   }
 
@@ -116,204 +86,188 @@
     padding: 13px 14px;
     outline: none;
     transition: border-color 0.2s;
-    appearance: none;
-    -webkit-appearance: none;
+    appearance: none; -webkit-appearance: none;
   }
+  select:focus, input:focus { border-color: var(--accent); }
 
-  select:focus, input:focus {
-    border-color: var(--accent);
-  }
-
-  .select-wrapper {
-    position: relative;
-  }
-
+  .select-wrapper { position: relative; }
   .select-wrapper::after {
-    content: '▾';
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    pointer-events: none;
-    font-size: 1rem;
+    content: '▾'; position: absolute;
+    right: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); pointer-events: none; font-size: 1rem;
   }
 
-  .lainnya-input {
-    margin-top: 10px;
-  }
+  .lainnya-input { margin-top: 10px; }
 
   input[type="number"] {
-    width: 100%;
-    background: var(--input-bg);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    padding: 13px 14px;
-    outline: none;
-    transition: border-color 0.2s;
+    width: 100%; background: var(--input-bg);
+    border: 1.5px solid var(--border); border-radius: 10px;
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; padding: 13px 14px;
+    outline: none; transition: border-color 0.2s;
     -moz-appearance: textfield;
   }
-
   input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type="number"]:focus { border-color: var(--accent); }
 
-  input[type="number"]:focus {
-    border-color: var(--accent);
-  }
-
-  .jumlah-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
+  .jumlah-wrapper { display: flex; align-items: center; gap: 10px; }
   .jumlah-wrapper button {
-    width: 44px;
-    height: 44px;
-    flex-shrink: 0;
-    background: var(--border);
-    border: none;
-    border-radius: 10px;
-    color: var(--text);
-    font-size: 1.3rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: var(--border); border: none; border-radius: 10px;
+    color: var(--text); font-size: 1.3rem; font-weight: 700;
+    cursor: pointer; transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center;
   }
-
   .jumlah-wrapper button:hover { background: var(--accent); color: #0f1117; }
-
-  .jumlah-wrapper input {
-    text-align: center;
-    flex: 1;
-  }
+  .jumlah-wrapper input { text-align: center; flex: 1; }
 
   .btn {
-    width: 100%;
-    padding: 15px;
-    background: var(--accent);
-    color: #0f1117;
-    border: none;
-    border-radius: 12px;
+    width: 100%; padding: 15px;
+    background: var(--accent); color: #0f1117;
+    border: none; border-radius: 12px;
     font-family: 'Sora', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-top: 8px;
+    font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; transition: all 0.2s; margin-top: 8px;
   }
-
   .btn:hover { background: var(--accent2); }
   .btn:active { transform: scale(0.98); }
   .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
   .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
+    position: fixed; bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(80px);
-    background: var(--accent);
-    color: #0f1117;
-    padding: 12px 24px;
-    border-radius: 50px;
+    background: var(--accent); color: #0f1117;
+    padding: 12px 24px; border-radius: 50px;
     font-family: 'Sora', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: transform 0.3s ease;
-    z-index: 999;
-    white-space: nowrap;
+    font-size: 0.85rem; font-weight: 600;
+    transition: transform 0.3s ease; z-index: 999; white-space: nowrap;
   }
-
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.error { background: var(--danger); color: white; }
 
-  /* REKAP */
-  .rekap-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  /* REKAP TABS */
+  .rekap-subtabs {
+    display: flex; gap: 8px; margin-bottom: 16px;
+  }
+  .rekap-subtab {
+    flex: 1; padding: 8px 4px; text-align: center;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.75rem; font-weight: 600;
+    border-radius: 8px; cursor: pointer;
+    color: var(--muted);
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .rekap-subtab.active { background: var(--accent); color: #0f1117; border-color: var(--accent); }
+
+  /* BULAN SELECTOR */
+  .bulan-selector {
+    display: flex; align-items: center; gap: 8px;
     margin-bottom: 16px;
   }
-
-  .rekap-header h2 {
-    font-family: 'Sora', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
+  .bulan-selector select {
+    flex: 1; padding: 10px 12px; font-size: 0.88rem;
   }
 
+  /* REKAP HEADER */
+  .rekap-header {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 16px;
+  }
+  .rekap-header h2 { font-family: 'Sora', sans-serif; font-size: 1rem; font-weight: 700; }
   .badge {
-    background: var(--accent);
-    color: #0f1117;
+    background: var(--accent); color: #0f1117;
     font-family: 'Sora', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 50px;
+    font-size: 0.75rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 50px;
   }
 
-  .rekap-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  .rekap-list { display: flex; flex-direction: column; gap: 10px; }
 
+  /* ITEM RIWAYAT */
   .rekap-item {
     background: var(--input-bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    border-radius: 12px; padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 4px;
   }
-
   .rekap-item .nama {
     font-family: 'Sora', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text);
+    font-size: 0.9rem; font-weight: 600; color: var(--text);
   }
-
   .rekap-item .detail {
-    font-size: 0.82rem;
-    color: var(--muted);
-    display: flex;
-    gap: 12px;
+    font-size: 0.82rem; color: var(--muted);
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  }
+  .rekap-item .minuman-tag { color: var(--accent); font-weight: 500; }
+  .rekap-item .total-tag { color: var(--accent); font-weight: 700; }
+
+  /* ITEM REKAP BULANAN PER ORANG */
+  .person-item {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px;
+    display: flex; justify-content: space-between;
+    align-items: center; cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .person-item:hover { border-color: var(--accent); }
+  .person-item .pname {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9rem; font-weight: 600;
+  }
+  .person-item .pinfo {
+    font-size: 0.78rem; color: var(--muted); margin-top: 2px;
+  }
+  .person-item .ptotal {
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem; font-weight: 700; color: var(--accent);
+    text-align: right;
+  }
+  .person-item .ptotal small {
+    display: block; font-size: 0.72rem;
+    color: var(--muted); font-weight: 400;
   }
 
-  .rekap-item .minuman-tag {
-    color: var(--accent);
-    font-weight: 500;
+  /* DETAIL PER ORANG */
+  .person-detail {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 6px;
+    display: none;
+    flex-direction: column; gap: 6px;
+  }
+  .person-detail.open { display: flex; }
+  .person-detail .det-row {
+    display: flex; justify-content: space-between;
+    font-size: 0.82rem; color: var(--muted);
+  }
+  .person-detail .det-row span:last-child { color: var(--text); }
+
+  /* TOTAL BULAN */
+  .bulan-total {
+    background: var(--accent);
+    border-radius: 12px; padding: 14px 16px;
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 12px;
+  }
+  .bulan-total .bt-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.82rem; font-weight: 600; color: #0f1117;
+  }
+  .bulan-total .bt-val {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.1rem; font-weight: 700; color: #0f1117;
   }
 
-  .empty {
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.85rem;
-    padding: 32px 0;
-  }
+  .empty { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 32px 0; }
+  .loading { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 24px 0; animation: pulse 1.2s infinite; }
 
-  .loading {
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.85rem;
-    padding: 24px 0;
-    animation: pulse 1.2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 </style>
 </head>
 <body>
@@ -355,19 +309,27 @@
   <div class="field">
     <label>Minuman</label>
     <div class="select-wrapper">
-      <select id="minuman" onchange="cekLainnya()">
+      <select id="minuman" onchange="cekLainnya(); updateHarga()">
         <option value="">-- Pilih Minuman --</option>
-        <option>Es Teh</option>
-        <option>Teh Anget</option>
-        <option>Kopi</option>
-        <option>Es Jeruk</option>
-        <option>Jeruk Anget</option>
-        <option value="Lainnya">Lainnya</option>
+        <option data-harga="3000">Es Teh</option>
+        <option data-harga="3000">Teh Anget</option>
+        <option data-harga="4000">Kopi</option>
+        <option data-harga="4000">Es Jeruk</option>
+        <option data-harga="4000">Jeruk Anget</option>
+        <option data-harga="5000">Cappucino</option>
+        <option data-harga="5000">Good Day</option>
+        <option data-harga="1000">Kerupuk</option>
+        <option data-harga="" value="Lainnya">Lainnya</option>
       </select>
     </div>
     <div class="lainnya-input" id="lainnya-wrap" style="display:none">
       <input type="text" id="minuman-lain" placeholder="Tulis minuman...">
     </div>
+  </div>
+
+  <div class="field" id="harga-field" style="display:none">
+    <label>Harga Satuan</label>
+    <div style="background:var(--input-bg);border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;font-size:0.95rem;color:var(--accent);font-weight:600;" id="harga-display">-</div>
   </div>
 
   <div class="field">
@@ -384,17 +346,37 @@
     <input type="date" id="tanggal">
   </div>
 
-  <button class="btn" id="btn-submit" onclick="submit()">Catat Pesanan</button>
+  <button class="btn" id="btn-submit" onclick="submitOrder()">Catat Pesanan</button>
 </div>
 
 <!-- REKAP -->
 <div id="section-rekap" class="card" style="display:none">
-  <div class="rekap-header">
-    <h2>Riwayat Order</h2>
-    <span class="badge" id="total-badge">0</span>
+  <div class="rekap-subtabs">
+    <div class="rekap-subtab active" onclick="switchSubtab('riwayat')">📜 Riwayat</div>
+    <div class="rekap-subtab" onclick="switchSubtab('bulanan')">📅 Per Bulan</div>
   </div>
-  <div id="rekap-list" class="rekap-list">
-    <div class="loading">Memuat data...</div>
+
+  <!-- RIWAYAT -->
+  <div id="sub-riwayat">
+    <div class="rekap-header">
+      <h2>Riwayat Order</h2>
+      <span class="badge" id="total-badge">0</span>
+    </div>
+    <div id="rekap-list" class="rekap-list">
+      <div class="loading">Memuat data...</div>
+    </div>
+  </div>
+
+  <!-- PER BULAN -->
+  <div id="sub-bulanan" style="display:none">
+    <div class="bulan-selector">
+      <div class="select-wrapper" style="flex:1">
+        <select id="pilih-bulan" onchange="renderBulanan()"></select>
+      </div>
+    </div>
+    <div id="bulanan-content">
+      <div class="loading">Memuat data...</div>
+    </div>
   </div>
 </div>
 
@@ -402,11 +384,22 @@
 
 <script>
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTWqt-W_aE85P4fezj0iIfBiSxK42s5Rg1nzCKD0GD-qpAqHO0lj3Nhgftr8fDAuWW/exec";
-
-  // Set default tanggal = hari ini
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('tanggal').value = today;
 
+  let allData = null;
+
+  const HARGA_MAP = {
+    'Es Teh': 3000, 'Teh Anget': 3000, 'Kopi': 4000,
+    'Es Jeruk': 4000, 'Jeruk Anget': 4000,
+    'Cappucino': 5000, 'Good Day': 5000, 'Kerupuk': 1000
+  };
+
+  const BULAN_NAMES = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+  function rp(n) { return 'Rp ' + Number(n).toLocaleString('id-ID'); }
+
+  // ── TAB UTAMA ──
   function switchTab(tab) {
     document.querySelectorAll('.tab').forEach((t, i) => {
       t.classList.toggle('active', (i === 0 && tab === 'form') || (i === 1 && tab === 'rekap'));
@@ -416,10 +409,32 @@
     if (tab === 'rekap') loadRekap();
   }
 
+  // ── SUBTAB REKAP ──
+  function switchSubtab(sub) {
+    document.querySelectorAll('.rekap-subtab').forEach((t, i) => {
+      t.classList.toggle('active', (i === 0 && sub === 'riwayat') || (i === 1 && sub === 'bulanan'));
+    });
+    document.getElementById('sub-riwayat').style.display = sub === 'riwayat' ? 'block' : 'none';
+    document.getElementById('sub-bulanan').style.display = sub === 'bulanan' ? 'block' : 'none';
+    if (sub === 'bulanan' && allData) renderBulananInit();
+  }
+
+  // ── FORM ──
+  function updateHarga() {
+    const val = document.getElementById('minuman').value;
+    const hargaField = document.getElementById('harga-field');
+    const hargaDisplay = document.getElementById('harga-display');
+    if (val && val !== 'Lainnya' && HARGA_MAP[val]) {
+      hargaField.style.display = 'block';
+      hargaDisplay.textContent = rp(HARGA_MAP[val]);
+    } else {
+      hargaField.style.display = 'none';
+    }
+  }
+
   function ubahJumlah(delta) {
     const el = document.getElementById('jumlah');
-    const val = parseInt(el.value) || 1;
-    el.value = Math.max(1, val + delta);
+    el.value = Math.max(1, (parseInt(el.value) || 1) + delta);
   }
 
   function cekLainnya() {
@@ -435,14 +450,15 @@
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  async function submit() {
+  async function submitOrder() {
     const nama = document.getElementById('nama').value;
     const minumanSelect = document.getElementById('minuman').value;
     const minumanLain = document.getElementById('minuman-lain').value.trim();
     const tanggal = document.getElementById('tanggal').value;
     const jumlah = parseInt(document.getElementById('jumlah').value) || 1;
-
     const minuman = minumanSelect === 'Lainnya' ? minumanLain : minumanSelect;
+    const harga = HARGA_MAP[minuman] || '';
+    const total = harga ? harga * jumlah : '';
 
     if (!nama || !minuman || !tanggal) {
       showToast('⚠️ Lengkapi semua field dulu', true);
@@ -450,15 +466,13 @@
     }
 
     const btn = document.getElementById('btn-submit');
-    btn.disabled = true;
-    btn.textContent = 'Mengirim...';
+    btn.disabled = true; btn.textContent = 'Mengirim...';
 
     try {
       await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
+        method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tanggal, nama, minuman, jumlah })
+        body: JSON.stringify({ tanggal, nama, minuman, jumlah, harga, total })
       });
       showToast('✅ Order berhasil dikirim!');
       document.getElementById('nama').value = '';
@@ -466,45 +480,148 @@
       document.getElementById('minuman-lain').value = '';
       document.getElementById('lainnya-wrap').style.display = 'none';
       document.getElementById('jumlah').value = '1';
+      document.getElementById('harga-field').style.display = 'none';
       document.getElementById('tanggal').value = today;
+      allData = null;
     } catch (e) {
       showToast('❌ Gagal kirim, coba lagi', true);
     }
 
-    btn.disabled = false;
-    btn.textContent = 'Kirim Order';
+    btn.disabled = false; btn.textContent = 'Catat Pesanan';
   }
 
+  // ── LOAD DATA ──
   async function loadRekap() {
-    const list = document.getElementById('rekap-list');
-    list.innerHTML = '<div class="loading">Memuat data...</div>';
+    if (allData) { renderRiwayat(); return; }
+    document.getElementById('rekap-list').innerHTML = '<div class="loading">Memuat data...</div>';
     try {
       const res = await fetch(SCRIPT_URL);
-      const data = await res.json();
-      document.getElementById('total-badge').textContent = data.length;
-
-      if (data.length === 0) {
-        list.innerHTML = '<div class="empty">Belum ada data order</div>';
-        return;
-      }
-
-      // Sort terbaru dulu
-      const sorted = data.reverse();
-      list.innerHTML = sorted.map(row => {
-        const tgl = row['Tanggal'] ? new Date(row['Tanggal']).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' }) : '-';
-        return `
-          <div class="rekap-item">
-            <div class="nama">${row['Nama'] || '-'}</div>
-            <div class="detail">
-              <span class="minuman-tag">🧋 ${row['Minuman'] || '-'}</span>
-              <span>✕ ${row['Jumlah'] || 1}</span>
-              <span>📅 ${tgl}</span>
-            </div>
-          </div>`;
-      }).join('');
+      allData = await res.json();
+      renderRiwayat();
     } catch (e) {
-      list.innerHTML = '<div class="empty">Gagal memuat data</div>';
+      document.getElementById('rekap-list').innerHTML = '<div class="empty">Gagal memuat data</div>';
     }
+  }
+
+  // ── RENDER RIWAYAT ──
+  function renderRiwayat() {
+    const list = document.getElementById('rekap-list');
+    document.getElementById('total-badge').textContent = allData.length;
+    if (allData.length === 0) {
+      list.innerHTML = '<div class="empty">Belum ada data order</div>';
+      return;
+    }
+    const sorted = [...allData].reverse();
+    list.innerHTML = sorted.map(row => {
+      const tgl = row['Tanggal'] ? new Date(row['Tanggal']).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' }) : '-';
+      return `
+        <div class="rekap-item">
+          <div class="nama">${row['Nama'] || '-'}</div>
+          <div class="detail">
+            <span class="minuman-tag">🧋 ${row['Minuman'] || '-'}</span>
+            <span>✕ ${row['Jumlah'] || 1}</span>
+            ${row['Harga'] ? `<span>${rp(row['Harga'])}</span>` : ''}
+            ${row['Total'] ? `<span class="total-tag">= ${rp(row['Total'])}</span>` : ''}
+            <span>📅 ${tgl}</span>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── RENDER BULANAN ──
+  function renderBulananInit() {
+    // Kumpulkan semua bulan yang ada
+    const bulanSet = new Set();
+    allData.forEach(row => {
+      if (!row['Tanggal']) return;
+      const d = new Date(row['Tanggal']);
+      if (isNaN(d)) return;
+      bulanSet.add(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`);
+    });
+
+    const bulanList = [...bulanSet].sort().reverse();
+    const sel = document.getElementById('pilih-bulan');
+    sel.innerHTML = bulanList.map(b => {
+      const [y, m] = b.split('-');
+      return `<option value="${b}">${BULAN_NAMES[parseInt(m)-1]} ${y}</option>`;
+    }).join('');
+
+    renderBulanan();
+  }
+
+  function renderBulanan() {
+    const bulan = document.getElementById('pilih-bulan').value;
+    if (!bulan || !allData) return;
+
+    const [y, m] = bulan.split('-');
+    const filtered = allData.filter(row => {
+      if (!row['Tanggal']) return false;
+      const d = new Date(row['Tanggal']);
+      return d.getFullYear() === parseInt(y) && (d.getMonth()+1) === parseInt(m);
+    });
+
+    const content = document.getElementById('bulanan-content');
+
+    if (filtered.length === 0) {
+      content.innerHTML = '<div class="empty">Tidak ada order di bulan ini</div>';
+      return;
+    }
+
+    // Kelompokkan per orang
+    const perOrang = {};
+    let grandTotal = 0;
+    filtered.forEach(row => {
+      const nama = row['Nama'] || 'Lainnya';
+      const total = Number(row['Total']) || 0;
+      const jumlah = Number(row['Jumlah']) || 1;
+      if (!perOrang[nama]) perOrang[nama] = { total: 0, orders: [], count: 0 };
+      perOrang[nama].total += total;
+      perOrang[nama].count += jumlah;
+      perOrang[nama].orders.push(row);
+      grandTotal += total;
+    });
+
+    // Sort by total tertinggi
+    const sorted = Object.entries(perOrang).sort((a, b) => b[1].total - a[1].total);
+
+    const totalBox = grandTotal > 0 ? `
+      <div class="bulan-total">
+        <span class="bt-label">💰 Total ${BULAN_NAMES[parseInt(m)-1]} ${y}</span>
+        <span class="bt-val">${rp(grandTotal)}</span>
+      </div>` : '';
+
+    const items = sorted.map(([nama, data], idx) => {
+      const detailId = `det-${idx}`;
+      const detailRows = data.orders.map(row => {
+        const tgl = new Date(row['Tanggal']).toLocaleDateString('id-ID', { day:'numeric', month:'short' });
+        return `<div class="det-row">
+          <span>🧋 ${row['Minuman'] || '-'} ✕${row['Jumlah'] || 1} — ${tgl}</span>
+          <span>${row['Total'] ? rp(row['Total']) : '-'}</span>
+        </div>`;
+      }).join('');
+
+      return `
+        <div class="person-item" onclick="toggleDetail('${detailId}')">
+          <div>
+            <div class="pname">${nama}</div>
+            <div class="pinfo">${data.orders.length} order · ${data.count} item</div>
+          </div>
+          <div class="ptotal">
+            ${data.total > 0 ? rp(data.total) : '-'}
+            <small>tap untuk detail</small>
+          </div>
+        </div>
+        <div class="person-detail" id="${detailId}">
+          ${detailRows}
+        </div>`;
+    }).join('');
+
+    content.innerHTML = totalBox + `<div class="rekap-list">${items}</div>`;
+  }
+
+  function toggleDetail(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
   }
 </script>
 </body>
