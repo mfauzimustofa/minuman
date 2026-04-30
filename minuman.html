@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Minuman</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --border: #2a2d3a;
+    --accent: #4ade80;
+    --accent2: #22c55e;
+    --text: #f0f0f0;
+    --muted: #8b8fa8;
+    --input-bg: #12141e;
+    --danger: #f87171;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .header .icon {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .header h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+
+  .header p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+
+  .tabs {
+    display: flex;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 4px;
+    max-width: 420px;
+    margin: 0 auto 28px;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: 9px;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  .tab.active {
+    background: var(--accent);
+    color: #0f1117;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 20px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+
+  select, input[type="date"], input[type="text"] {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    padding: 13px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  select:focus, input:focus {
+    border-color: var(--accent);
+  }
+
+  .select-wrapper {
+    position: relative;
+  }
+
+  .select-wrapper::after {
+    content: '▾';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+    font-size: 1rem;
+  }
+
+  .lainnya-input {
+    margin-top: 10px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--accent);
+    color: #0f1117;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+
+  .btn:hover { background: var(--accent2); }
+  .btn:active { transform: scale(0.98); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--accent);
+    color: #0f1117;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+    z-index: 999;
+    white-space: nowrap;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { background: var(--danger); color: white; }
+
+  /* REKAP */
+  .rekap-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .rekap-header h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .badge {
+    background: var(--accent);
+    color: #0f1117;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 50px;
+  }
+
+  .rekap-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .rekap-item {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .rekap-item .nama {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .rekap-item .detail {
+    font-size: 0.82rem;
+    color: var(--muted);
+    display: flex;
+    gap: 12px;
+  }
+
+  .rekap-item .minuman-tag {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    padding: 32px 0;
+  }
+
+  .loading {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    padding: 24px 0;
+    animation: pulse 1.2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="icon">🧋</span>
+  <h1>Order Minuman</h1>
+  <p>DPRKP Ngawi</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('form')">📝 Order</div>
+  <div class="tab" onclick="switchTab('rekap')">📋 Rekap</div>
+</div>
+
+<!-- FORM -->
+<div id="section-form" class="card">
+  <div class="field">
+    <label>Nama</label>
+    <div class="select-wrapper">
+      <select id="nama">
+        <option value="">-- Pilih Nama --</option>
+        <option>Bu Tiwi</option>
+        <option>Bu Etiek</option>
+        <option>Bu Yuni</option>
+        <option>Pak Wahyudhi</option>
+        <option>Mas Dika</option>
+        <option>Mas Hari</option>
+        <option>Mbak Reza</option>
+        <option>Fauzi</option>
+        <option>Aca</option>
+        <option>Erma</option>
+        <option>Mbak Dian</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Minuman</label>
+    <div class="select-wrapper">
+      <select id="minuman" onchange="cekLainnya()">
+        <option value="">-- Pilih Minuman --</option>
+        <option>Es Teh</option>
+        <option>Teh Anget</option>
+        <option>Kopi</option>
+        <option>Es Jeruk</option>
+        <option>Jeruk Anget</option>
+        <option value="Lainnya">Lainnya</option>
+      </select>
+    </div>
+    <div class="lainnya-input" id="lainnya-wrap" style="display:none">
+      <input type="text" id="minuman-lain" placeholder="Tulis minuman...">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Tanggal Beli</label>
+    <input type="date" id="tanggal">
+  </div>
+
+  <button class="btn" id="btn-submit" onclick="submit()">Kirim Order</button>
+</div>
+
+<!-- REKAP -->
+<div id="section-rekap" class="card" style="display:none">
+  <div class="rekap-header">
+    <h2>Riwayat Order</h2>
+    <span class="badge" id="total-badge">0</span>
+  </div>
+  <div id="rekap-list" class="rekap-list">
+    <div class="loading">Memuat data...</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTWqt-W_aE85P4fezj0iIfBiSxK42s5Rg1nzCKD0GD-qpAqHO0lj3Nhgftr8fDAuWW/exec";
+
+  // Set default tanggal = hari ini
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('tanggal').value = today;
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', (i === 0 && tab === 'form') || (i === 1 && tab === 'rekap'));
+    });
+    document.getElementById('section-form').style.display = tab === 'form' ? 'block' : 'none';
+    document.getElementById('section-rekap').style.display = tab === 'rekap' ? 'block' : 'none';
+    if (tab === 'rekap') loadRekap();
+  }
+
+  function cekLainnya() {
+    const val = document.getElementById('minuman').value;
+    document.getElementById('lainnya-wrap').style.display = val === 'Lainnya' ? 'block' : 'none';
+  }
+
+  function showToast(msg, error = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast' + (error ? ' error' : '');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  async function submit() {
+    const nama = document.getElementById('nama').value;
+    const minumanSelect = document.getElementById('minuman').value;
+    const minumanLain = document.getElementById('minuman-lain').value.trim();
+    const tanggal = document.getElementById('tanggal').value;
+
+    const minuman = minumanSelect === 'Lainnya' ? minumanLain : minumanSelect;
+
+    if (!nama || !minuman || !tanggal) {
+      showToast('⚠️ Lengkapi semua field dulu', true);
+      return;
+    }
+
+    const btn = document.getElementById('btn-submit');
+    btn.disabled = true;
+    btn.textContent = 'Mengirim...';
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tanggal, nama, minuman })
+      });
+      showToast('✅ Order berhasil dikirim!');
+      document.getElementById('nama').value = '';
+      document.getElementById('minuman').value = '';
+      document.getElementById('minuman-lain').value = '';
+      document.getElementById('lainnya-wrap').style.display = 'none';
+      document.getElementById('tanggal').value = today;
+    } catch (e) {
+      showToast('❌ Gagal kirim, coba lagi', true);
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Kirim Order';
+  }
+
+  async function loadRekap() {
+    const list = document.getElementById('rekap-list');
+    list.innerHTML = '<div class="loading">Memuat data...</div>';
+    try {
+      const res = await fetch(SCRIPT_URL);
+      const data = await res.json();
+      document.getElementById('total-badge').textContent = data.length;
+
+      if (data.length === 0) {
+        list.innerHTML = '<div class="empty">Belum ada data order</div>';
+        return;
+      }
+
+      // Sort terbaru dulu
+      const sorted = data.reverse();
+      list.innerHTML = sorted.map(row => {
+        const tgl = row['Tanggal'] ? new Date(row['Tanggal']).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' }) : '-';
+        return `
+          <div class="rekap-item">
+            <div class="nama">${row['Nama'] || '-'}</div>
+            <div class="detail">
+              <span class="minuman-tag">🧋 ${row['Minuman'] || '-'}</span>
+              <span>📅 ${tgl}</span>
+            </div>
+          </div>`;
+      }).join('');
+    } catch (e) {
+      list.innerHTML = '<div class="empty">Gagal memuat data</div>';
+    }
+  }
+</script>
+</body>
+</html>
