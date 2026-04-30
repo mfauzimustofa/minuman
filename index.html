@@ -352,16 +352,8 @@
     if (tab === 'rekap') loadRekap();
   }
 
-  function updateHarga() {
-    const val = document.getElementById('minuman').value;
-    const field = document.getElementById('harga-field');
-    const disp  = document.getElementById('harga-display');
-    if (val && val !== 'Lainnya' && HARGA_MAP[val]) {
-      field.style.display = 'block';
-      disp.textContent = rp(HARGA_MAP[val]);
-    } else {
-      field.style.display = 'none';
-    }
+function updateHarga() {
+    document.getElementById('harga-field').style.display = 'none';
   }
 
   function ubahJumlah(delta) {
