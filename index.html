@@ -37,23 +37,21 @@
   }
   .header p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
 
-  .tabs {
-    display: flex;
+  .login-fab {
+    position: fixed;
+    top: 16px; right: 16px;
+    width: 42px; height: 42px;
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 4px;
-    max-width: 420px;
-    margin: 0 auto 28px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
   }
-  .tab {
-    flex: 1; padding: 10px; text-align: center;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.82rem; font-weight: 600;
-    border-radius: 9px; cursor: pointer;
-    color: var(--muted); transition: all 0.2s;
-  }
-  .tab.active { background: var(--accent); color: #0f1117; }
+  .login-fab:hover { border-color: var(--accent); background: var(--input-bg); }
+  .login-fab.logged { background: var(--accent); border-color: var(--accent); }
 
   .card {
     background: var(--card);
@@ -309,19 +307,18 @@
 </head>
 <body>
 
+<button class="login-fab" id="login-fab" onclick="bukaLogin()">🔑</button>
+
 <div class="header">
   <span class="icon">🧋</span>
   <h1>Catatan Order Minuman</h1>
   <p>Bidang Perumahan-DPRKP Ngawi</p>
 </div>
 
-<div class="tabs">
-  <div class="tab active" onclick="switchTab('form')">📝 Order</div>
-  <div class="tab" id="tab-rekap" onclick="switchTab('rekap')">📋 Rekap</div>
-</div>
+
 
 <!-- FORM -->
-<div id="section-form" class="card">
+<div id="section-form" class="card" style="display:block">
   <div class="field">
     <label>Nama</label>
     <div class="select-wrapper">
@@ -388,7 +385,7 @@
 </div>
 
 <!-- REKAP -->
-<div id="section-rekap" style="display:none">
+<div id="section-rekap" style="display:none;margin-top:24px">
   <div id="rekap-root" class="rekap-wrap">
     <div class="loading">Memuat data...</div>
   </div>
@@ -397,14 +394,20 @@
 <div class="toast" id="toast"></div>
 
 <!-- LOGIN OVERLAY -->
-<div class="login-overlay" id="login-overlay">
+<div class="login-overlay" id="login-overlay" style="display:none">
   <div class="login-box">
-    <span class="lock">🔒</span>
-    <h2>Akses Rekap</h2>
-    <p>Masukkan password untuk melihat rekap</p>
-    <input type="password" id="login-input" placeholder="Password..." onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">Masuk</button>
-    <div class="login-error" id="login-error">❌ Password salah</div>
+    <span class="lock" id="lock-icon">🔒</span>
+    <h2 id="login-title">Akses Rekap</h2>
+    <p id="login-desc">Masukkan password untuk melihat rekap</p>
+    <div id="login-form-wrap">
+      <input type="password" id="login-input" placeholder="Password..." onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="login-btn" onclick="doLogin()">Masuk</button>
+      <div class="login-error" id="login-error">❌ Password salah</div>
+    </div>
+    <div id="logout-wrap" style="display:none">
+      <button class="login-btn" style="background:var(--danger);color:white" onclick="doLogout()">Keluar</button>
+    </div>
+    <button onclick="tutupLogin()" style="background:none;border:none;color:var(--muted);font-size:0.82rem;margin-top:14px;cursor:pointer;">Tutup</button>
   </div>
 </div>
 
@@ -417,9 +420,11 @@
     const err = document.getElementById('login-error');
     if (val === PASSWORD) {
       isLoggedIn = true;
-      document.getElementById('login-overlay').style.display = 'none';
       document.getElementById('login-input').value = '';
       err.style.display = 'none';
+      document.getElementById('login-fab').classList.add('logged');
+      document.getElementById('section-rekap').style.display = 'block';
+      tutupLogin();
       loadRekap();
     } else {
       err.style.display = 'block';
@@ -447,22 +452,36 @@
     return n ? 'Rp ' + Number(n).toLocaleString('id-ID') : '-';
   }
 
-  function switchTab(tab) {
-    if (tab === 'rekap' && !isLoggedIn) {
-      document.getElementById('login-overlay').style.display = 'flex';
-      return;
+  function bukaLogin() {
+    const overlay = document.getElementById('login-overlay');
+    overlay.style.display = 'flex';
+    if (isLoggedIn) {
+      document.getElementById('login-form-wrap').style.display = 'none';
+      document.getElementById('logout-wrap').style.display = 'block';
+      document.getElementById('lock-icon').textContent = '🔓';
+      document.getElementById('login-title').textContent = 'Sudah Login';
+      document.getElementById('login-desc').textContent = 'Kamu bisa melihat rekap di bawah';
+    } else {
+      document.getElementById('login-form-wrap').style.display = 'block';
+      document.getElementById('logout-wrap').style.display = 'none';
+      document.getElementById('lock-icon').textContent = '🔒';
+      document.getElementById('login-title').textContent = 'Akses Rekap';
+      document.getElementById('login-desc').textContent = 'Masukkan password untuk melihat rekap';
+      setTimeout(() => document.getElementById('login-input').focus(), 100);
     }
-    document.querySelectorAll('.tab').forEach((t, i) => {
-      t.classList.toggle('active', (i===0&&tab==='form')||(i===1&&tab==='rekap'));
-    });
-    document.getElementById('section-form').style.display = tab==='form' ? 'block' : 'none';
-    document.getElementById('section-rekap').style.display = tab==='rekap' ? 'block' : 'none';
-    if (tab === 'rekap') loadRekap();
+  }
+
+  function tutupLogin() {
+    document.getElementById('login-overlay').style.display = 'none';
   }
 
   function doLogout() {
     isLoggedIn = false;
-    switchTab('form');
+    document.getElementById('rekap-root').innerHTML = '';
+    document.getElementById('section-rekap').style.display = 'none';
+    document.getElementById('login-fab').classList.remove('logged');
+    allData = null;
+    tutupLogin();
   }
 
 function updateHarga() {
