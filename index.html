@@ -213,21 +213,35 @@
   /* Detail per orang */
   .person-orders {
     display: none;
-    background: var(--input-bg);
+    background: var(--bg);
     border-top: 1px solid var(--border);
-    padding: 10px 16px;
+    padding: 12px;
     flex-direction: column; gap: 8px;
   }
   .person-row.open .person-orders { display: flex; }
 
-  .order-row {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    font-size: 0.82rem;
+  .order-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 8px;
   }
-  .order-left { color: var(--muted); flex: 1; }
-  .order-left strong { color: var(--text); font-weight: 500; }
-  .order-right { color: var(--accent); font-weight: 600; flex-shrink: 0; margin-left: 8px; }
-  .order-right.dash { color: var(--muted); font-weight: 400; }
+  .oc-left { flex: 1; }
+  .oc-minuman { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+  .oc-meta { font-size: 0.75rem; color: var(--muted); margin-top: 3px; }
+  .oc-jumlah {
+    display: inline-block;
+    background: var(--border); border-radius: 4px;
+    padding: 1px 6px; font-size: 0.72rem; color: var(--text); margin-right: 4px;
+  }
+  .oc-right {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    color: var(--accent); flex-shrink: 0; text-align: right;
+  }
+  .oc-right.dash { color: var(--muted); font-weight: 400; font-size: 0.82rem; }
 
   .empty { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 40px 0; }
   .loading { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 40px 0; animation: pulse 1.2s infinite; }
@@ -466,12 +480,15 @@ function updateHarga() {
           const tgl = d2.toLocaleDateString('id-ID', { day:'numeric', month:'short' });
           const jml = Number(row['Jumlah']) || 1;
           const tot = Number(row['Total']);
-          return `<div class="order-row">
-            <div class="order-left">
-              <strong>${row['Minuman']||'-'}</strong>
-              ${jml > 1 ? ` ✕${jml}` : ''} &nbsp;·&nbsp; ${tgl}
+          return `<div class="order-card">
+            <div class="oc-left">
+              <div class="oc-minuman">🧋 ${row['Minuman']||'-'}</div>
+              <div class="oc-meta">
+                ${jml > 1 ? `<span class="oc-jumlah">✕${jml}</span>` : ''}
+                📅 ${tgl}
+              </div>
             </div>
-            <div class="order-right ${!tot?'dash':''}">${tot ? rp(tot) : '-'}</div>
+            <div class="oc-right ${!tot?'dash':''}">${tot ? rp(tot) : '-'}</div>
           </div>`;
         }).join('');
 
