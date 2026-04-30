@@ -25,7 +25,7 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding: 24px 16px 48px;
+    padding: 24px 16px 60px;
   }
 
   .header { text-align: center; margin-bottom: 32px; }
@@ -49,7 +49,7 @@
   .tab {
     flex: 1; padding: 10px; text-align: center;
     font-family: 'Sora', sans-serif;
-    font-size: 0.78rem; font-weight: 600;
+    font-size: 0.82rem; font-weight: 600;
     border-radius: 9px; cursor: pointer;
     color: var(--muted); transition: all 0.2s;
   }
@@ -146,128 +146,92 @@
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.error { background: var(--danger); color: white; }
 
-  /* REKAP TABS */
-  .rekap-subtabs {
-    display: flex; gap: 8px; margin-bottom: 16px;
+  /* ── REKAP ── */
+  .rekap-wrap { max-width: 420px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+
+  /* Blok bulan */
+  .bulan-block {}
+
+  /* Header bulan */
+  .bulan-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 18px;
+    background: var(--accent);
+    border-radius: 14px 14px 0 0;
   }
-  .rekap-subtab {
-    flex: 1; padding: 8px 4px; text-align: center;
+  .bulan-head .bh-label {
     font-family: 'Sora', sans-serif;
-    font-size: 0.75rem; font-weight: 600;
-    border-radius: 8px; cursor: pointer;
-    color: var(--muted);
-    background: var(--input-bg);
-    border: 1px solid var(--border);
-    transition: all 0.2s;
+    font-size: 0.88rem; font-weight: 700; color: #0f1117;
   }
-  .rekap-subtab.active { background: var(--accent); color: #0f1117; border-color: var(--accent); }
-
-  /* BULAN SELECTOR */
-  .bulan-selector {
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 16px;
-  }
-  .bulan-selector select {
-    flex: 1; padding: 10px 12px; font-size: 0.88rem;
-  }
-
-  /* REKAP HEADER */
-  .rekap-header {
-    display: flex; justify-content: space-between;
-    align-items: center; margin-bottom: 16px;
-  }
-  .rekap-header h2 { font-family: 'Sora', sans-serif; font-size: 1rem; font-weight: 700; }
-  .badge {
-    background: var(--accent); color: #0f1117;
+  .bulan-head .bh-total {
     font-family: 'Sora', sans-serif;
-    font-size: 0.75rem; font-weight: 700;
-    padding: 3px 10px; border-radius: 50px;
+    font-size: 0.95rem; font-weight: 700; color: #0f1117;
   }
 
-  .rekap-list { display: flex; flex-direction: column; gap: 10px; }
-
-  /* ITEM RIWAYAT */
-  .rekap-item {
-    background: var(--input-bg);
+  /* Body bulan */
+  .bulan-body {
+    background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px 16px;
-    display: flex; flex-direction: column; gap: 4px;
+    border-top: none;
+    border-radius: 0 0 14px 14px;
+    overflow: hidden;
   }
-  .rekap-item .nama {
+
+  /* Row per orang */
+  .person-row {
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .person-row:last-child { border-bottom: none; }
+  .person-row:hover { background: var(--input-bg); }
+
+  .person-summary {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 16px;
+  }
+  .ps-left {}
+  .ps-name {
     font-family: 'Sora', sans-serif;
     font-size: 0.9rem; font-weight: 600; color: var(--text);
   }
-  .rekap-item .detail {
-    font-size: 0.82rem; color: var(--muted);
-    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
-  }
-  .rekap-item .minuman-tag { color: var(--accent); font-weight: 500; }
-  .rekap-item .total-tag { color: var(--accent); font-weight: 700; }
-
-  /* ITEM REKAP BULANAN PER ORANG */
-  .person-item {
-    background: var(--input-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px 16px;
-    display: flex; justify-content: space-between;
-    align-items: center; cursor: pointer;
-    transition: border-color 0.2s;
-  }
-  .person-item:hover { border-color: var(--accent); }
-  .person-item .pname {
-    font-family: 'Sora', sans-serif;
-    font-size: 0.9rem; font-weight: 600;
-  }
-  .person-item .pinfo {
+  .ps-meta {
     font-size: 0.78rem; color: var(--muted); margin-top: 2px;
   }
-  .person-item .ptotal {
+  .ps-right { text-align: right; }
+  .ps-total {
     font-family: 'Sora', sans-serif;
-    font-size: 1rem; font-weight: 700; color: var(--accent);
-    text-align: right;
+    font-size: 0.95rem; font-weight: 700; color: var(--accent);
   }
-  .person-item .ptotal small {
-    display: block; font-size: 0.72rem;
-    color: var(--muted); font-weight: 400;
+  .ps-arr {
+    font-size: 0.7rem; color: var(--muted);
+    margin-top: 2px; transition: transform 0.2s;
+    display: block; text-align: right;
   }
+  .person-row.open .ps-arr { transform: rotate(180deg); }
 
-  /* DETAIL PER ORANG */
-  .person-detail {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    margin-top: 6px;
+  /* Detail per orang */
+  .person-orders {
     display: none;
-    flex-direction: column; gap: 6px;
+    background: var(--input-bg);
+    border-top: 1px solid var(--border);
+    padding: 10px 16px;
+    flex-direction: column; gap: 8px;
   }
-  .person-detail.open { display: flex; }
-  .person-detail .det-row {
-    display: flex; justify-content: space-between;
-    font-size: 0.82rem; color: var(--muted);
-  }
-  .person-detail .det-row span:last-child { color: var(--text); }
+  .person-row.open .person-orders { display: flex; }
 
-  /* TOTAL BULAN */
-  .bulan-total {
-    background: var(--accent);
-    border-radius: 12px; padding: 14px 16px;
-    display: flex; justify-content: space-between;
-    align-items: center; margin-bottom: 12px;
+  .order-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    font-size: 0.82rem;
   }
-  .bulan-total .bt-label {
-    font-family: 'Sora', sans-serif;
-    font-size: 0.82rem; font-weight: 600; color: #0f1117;
-  }
-  .bulan-total .bt-val {
-    font-family: 'Sora', sans-serif;
-    font-size: 1.1rem; font-weight: 700; color: #0f1117;
-  }
+  .order-left { color: var(--muted); flex: 1; }
+  .order-left strong { color: var(--text); font-weight: 500; }
+  .order-right { color: var(--accent); font-weight: 600; flex-shrink: 0; margin-left: 8px; }
+  .order-right.dash { color: var(--muted); font-weight: 400; }
 
-  .empty { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 32px 0; }
-  .loading { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 24px 0; animation: pulse 1.2s infinite; }
-
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .empty { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 40px 0; }
+  .loading { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 40px 0; animation: pulse 1.2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 </style>
 </head>
 <body>
@@ -329,7 +293,7 @@
 
   <div class="field" id="harga-field" style="display:none">
     <label>Harga Satuan</label>
-    <div style="background:var(--input-bg);border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;font-size:0.95rem;color:var(--accent);font-weight:600;" id="harga-display">-</div>
+    <div style="background:var(--input-bg);border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;font-size:0.95rem;color:var(--accent);font-weight:600;" id="harga-display"></div>
   </div>
 
   <div class="field">
@@ -350,33 +314,9 @@
 </div>
 
 <!-- REKAP -->
-<div id="section-rekap" class="card" style="display:none">
-  <div class="rekap-subtabs">
-    <div class="rekap-subtab active" onclick="switchSubtab('riwayat')">📜 Riwayat</div>
-    <div class="rekap-subtab" onclick="switchSubtab('bulanan')">📅 Per Bulan</div>
-  </div>
-
-  <!-- RIWAYAT -->
-  <div id="sub-riwayat">
-    <div class="rekap-header">
-      <h2>Riwayat Order</h2>
-      <span class="badge" id="total-badge">0</span>
-    </div>
-    <div id="rekap-list" class="rekap-list">
-      <div class="loading">Memuat data...</div>
-    </div>
-  </div>
-
-  <!-- PER BULAN -->
-  <div id="sub-bulanan" style="display:none">
-    <div class="bulan-selector">
-      <div class="select-wrapper" style="flex:1">
-        <select id="pilih-bulan" onchange="renderBulanan()"></select>
-      </div>
-    </div>
-    <div id="bulanan-content">
-      <div class="loading">Memuat data...</div>
-    </div>
+<div id="section-rekap" style="display:none">
+  <div id="rekap-root" class="rekap-wrap">
+    <div class="loading">Memuat data...</div>
   </div>
 </div>
 
@@ -395,54 +335,45 @@
     'Cappucino': 5000, 'Good Day': 5000, 'Kerupuk': 1000
   };
 
-  const BULAN_NAMES = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const BULAN_NAMES = ['Januari','Februari','Maret','April','Mei','Juni',
+                       'Juli','Agustus','September','Oktober','November','Desember'];
 
-  function rp(n) { return 'Rp ' + Number(n).toLocaleString('id-ID'); }
+  function rp(n) {
+    return n ? 'Rp ' + Number(n).toLocaleString('id-ID') : '-';
+  }
 
-  // ── TAB UTAMA ──
   function switchTab(tab) {
     document.querySelectorAll('.tab').forEach((t, i) => {
-      t.classList.toggle('active', (i === 0 && tab === 'form') || (i === 1 && tab === 'rekap'));
+      t.classList.toggle('active', (i===0&&tab==='form')||(i===1&&tab==='rekap'));
     });
-    document.getElementById('section-form').style.display = tab === 'form' ? 'block' : 'none';
-    document.getElementById('section-rekap').style.display = tab === 'rekap' ? 'block' : 'none';
+    document.getElementById('section-form').style.display = tab==='form' ? 'block' : 'none';
+    document.getElementById('section-rekap').style.display = tab==='rekap' ? 'block' : 'none';
     if (tab === 'rekap') loadRekap();
   }
 
-  // ── SUBTAB REKAP ──
-  function switchSubtab(sub) {
-    document.querySelectorAll('.rekap-subtab').forEach((t, i) => {
-      t.classList.toggle('active', (i === 0 && sub === 'riwayat') || (i === 1 && sub === 'bulanan'));
-    });
-    document.getElementById('sub-riwayat').style.display = sub === 'riwayat' ? 'block' : 'none';
-    document.getElementById('sub-bulanan').style.display = sub === 'bulanan' ? 'block' : 'none';
-    if (sub === 'bulanan' && allData) renderBulananInit();
-  }
-
-  // ── FORM ──
   function updateHarga() {
     const val = document.getElementById('minuman').value;
-    const hargaField = document.getElementById('harga-field');
-    const hargaDisplay = document.getElementById('harga-display');
+    const field = document.getElementById('harga-field');
+    const disp  = document.getElementById('harga-display');
     if (val && val !== 'Lainnya' && HARGA_MAP[val]) {
-      hargaField.style.display = 'block';
-      hargaDisplay.textContent = rp(HARGA_MAP[val]);
+      field.style.display = 'block';
+      disp.textContent = rp(HARGA_MAP[val]);
     } else {
-      hargaField.style.display = 'none';
+      field.style.display = 'none';
     }
   }
 
   function ubahJumlah(delta) {
     const el = document.getElementById('jumlah');
-    el.value = Math.max(1, (parseInt(el.value) || 1) + delta);
+    el.value = Math.max(1, (parseInt(el.value)||1) + delta);
   }
 
   function cekLainnya() {
     const val = document.getElementById('minuman').value;
-    document.getElementById('lainnya-wrap').style.display = val === 'Lainnya' ? 'block' : 'none';
+    document.getElementById('lainnya-wrap').style.display = val==='Lainnya' ? 'block' : 'none';
   }
 
-  function showToast(msg, error = false) {
+  function showToast(msg, error=false) {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.className = 'toast' + (error ? ' error' : '');
@@ -461,13 +392,11 @@
     const total = harga ? harga * jumlah : '';
 
     if (!nama || !minuman || !tanggal) {
-      showToast('⚠️ Lengkapi semua field dulu', true);
-      return;
+      showToast('⚠️ Lengkapi semua field dulu', true); return;
     }
 
     const btn = document.getElementById('btn-submit');
     btn.disabled = true; btn.textContent = 'Mengirim...';
-
     try {
       await fetch(SCRIPT_URL, {
         method: 'POST', mode: 'no-cors',
@@ -475,153 +404,113 @@
         body: JSON.stringify({ tanggal, nama, minuman, jumlah, harga, total })
       });
       showToast('✅ Order berhasil dikirim!');
-      document.getElementById('nama').value = '';
-      document.getElementById('minuman').value = '';
-      document.getElementById('minuman-lain').value = '';
-      document.getElementById('lainnya-wrap').style.display = 'none';
+      ['nama','minuman','minuman-lain','tanggal'].forEach(id => document.getElementById(id).value = id==='tanggal'?today:'');
       document.getElementById('jumlah').value = '1';
+      document.getElementById('lainnya-wrap').style.display = 'none';
       document.getElementById('harga-field').style.display = 'none';
-      document.getElementById('tanggal').value = today;
       allData = null;
-    } catch (e) {
-      showToast('❌ Gagal kirim, coba lagi', true);
-    }
-
+    } catch(e) { showToast('❌ Gagal kirim, coba lagi', true); }
     btn.disabled = false; btn.textContent = 'Catat Pesanan';
   }
 
-  // ── LOAD DATA ──
   async function loadRekap() {
-    if (allData) { renderRiwayat(); return; }
-    document.getElementById('rekap-list').innerHTML = '<div class="loading">Memuat data...</div>';
+    if (allData) { renderRekap(); return; }
+    document.getElementById('rekap-root').innerHTML = '<div class="loading">Memuat data...</div>';
     try {
       const res = await fetch(SCRIPT_URL);
       allData = await res.json();
-      renderRiwayat();
-    } catch (e) {
-      document.getElementById('rekap-list').innerHTML = '<div class="empty">Gagal memuat data</div>';
+      renderRekap();
+    } catch(e) {
+      document.getElementById('rekap-root').innerHTML = '<div class="empty">Gagal memuat data</div>';
     }
   }
 
-  // ── RENDER RIWAYAT ──
-  function renderRiwayat() {
-    const list = document.getElementById('rekap-list');
-    document.getElementById('total-badge').textContent = allData.length;
-    if (allData.length === 0) {
-      list.innerHTML = '<div class="empty">Belum ada data order</div>';
+  function renderRekap() {
+    if (!allData || allData.length === 0) {
+      document.getElementById('rekap-root').innerHTML = '<div class="empty">Belum ada data order</div>';
       return;
     }
-    const sorted = [...allData].reverse();
-    list.innerHTML = sorted.map(row => {
-      const tgl = row['Tanggal'] ? new Date(row['Tanggal']).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' }) : '-';
-      return `
-        <div class="rekap-item">
-          <div class="nama">${row['Nama'] || '-'}</div>
-          <div class="detail">
-            <span class="minuman-tag">🧋 ${row['Minuman'] || '-'}</span>
-            <span>✕ ${row['Jumlah'] || 1}</span>
-            ${row['Harga'] ? `<span>${rp(row['Harga'])}</span>` : ''}
-            ${row['Total'] ? `<span class="total-tag">= ${rp(row['Total'])}</span>` : ''}
-            <span>📅 ${tgl}</span>
-          </div>
-        </div>`;
-    }).join('');
-  }
 
-  // ── RENDER BULANAN ──
-  function renderBulananInit() {
-    // Kumpulkan semua bulan yang ada
-    const bulanSet = new Set();
+    // Kelompokkan per bulan
+    const perBulan = {};
     allData.forEach(row => {
       if (!row['Tanggal']) return;
       const d = new Date(row['Tanggal']);
       if (isNaN(d)) return;
-      bulanSet.add(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`);
+      const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+      if (!perBulan[key]) perBulan[key] = [];
+      perBulan[key].push(row);
     });
 
-    const bulanList = [...bulanSet].sort().reverse();
-    const sel = document.getElementById('pilih-bulan');
-    sel.innerHTML = bulanList.map(b => {
-      const [y, m] = b.split('-');
-      return `<option value="${b}">${BULAN_NAMES[parseInt(m)-1]} ${y}</option>`;
-    }).join('');
+    const bulanKeys = Object.keys(perBulan).sort().reverse();
 
-    renderBulanan();
-  }
+    const html = bulanKeys.map(key => {
+      const [y, m] = key.split('-');
+      const label = `${BULAN_NAMES[parseInt(m)-1]} ${y}`;
+      const rows = perBulan[key];
 
-  function renderBulanan() {
-    const bulan = document.getElementById('pilih-bulan').value;
-    if (!bulan || !allData) return;
+      // Kelompokkan per orang dalam bulan ini
+      const perOrang = {};
+      let grandTotal = 0;
+      rows.forEach(row => {
+        const nama = row['Nama'] || '?';
+        if (!perOrang[nama]) perOrang[nama] = { total: 0, orders: [] };
+        const tot = Number(row['Total']) || 0;
+        perOrang[nama].total += tot;
+        perOrang[nama].orders.push(row);
+        grandTotal += tot;
+      });
 
-    const [y, m] = bulan.split('-');
-    const filtered = allData.filter(row => {
-      if (!row['Tanggal']) return false;
-      const d = new Date(row['Tanggal']);
-      return d.getFullYear() === parseInt(y) && (d.getMonth()+1) === parseInt(m);
-    });
+      const sortedOrang = Object.entries(perOrang).sort((a,b) => b[1].total - a[1].total);
 
-    const content = document.getElementById('bulanan-content');
+      const personRows = sortedOrang.map(([nama, data], idx) => {
+        const pid = `p-${key}-${idx}`;
+        const totalOrders = data.orders.length;
+        const totalItem = data.orders.reduce((s,r) => s + (Number(r['Jumlah'])||1), 0);
 
-    if (filtered.length === 0) {
-      content.innerHTML = '<div class="empty">Tidak ada order di bulan ini</div>';
-      return;
-    }
+        const orderItems = [...data.orders].reverse().map(row => {
+          const d2 = new Date(row['Tanggal']);
+          const tgl = d2.toLocaleDateString('id-ID', { day:'numeric', month:'short' });
+          const jml = Number(row['Jumlah']) || 1;
+          const tot = Number(row['Total']);
+          return `<div class="order-row">
+            <div class="order-left">
+              <strong>${row['Minuman']||'-'}</strong>
+              ${jml > 1 ? ` ✕${jml}` : ''} &nbsp;·&nbsp; ${tgl}
+            </div>
+            <div class="order-right ${!tot?'dash':''}">${tot ? rp(tot) : '-'}</div>
+          </div>`;
+        }).join('');
 
-    // Kelompokkan per orang
-    const perOrang = {};
-    let grandTotal = 0;
-    filtered.forEach(row => {
-      const nama = row['Nama'] || 'Lainnya';
-      const total = Number(row['Total']) || 0;
-      const jumlah = Number(row['Jumlah']) || 1;
-      if (!perOrang[nama]) perOrang[nama] = { total: 0, orders: [], count: 0 };
-      perOrang[nama].total += total;
-      perOrang[nama].count += jumlah;
-      perOrang[nama].orders.push(row);
-      grandTotal += total;
-    });
-
-    // Sort by total tertinggi
-    const sorted = Object.entries(perOrang).sort((a, b) => b[1].total - a[1].total);
-
-    const totalBox = grandTotal > 0 ? `
-      <div class="bulan-total">
-        <span class="bt-label">💰 Total ${BULAN_NAMES[parseInt(m)-1]} ${y}</span>
-        <span class="bt-val">${rp(grandTotal)}</span>
-      </div>` : '';
-
-    const items = sorted.map(([nama, data], idx) => {
-      const detailId = `det-${idx}`;
-      const detailRows = data.orders.map(row => {
-        const tgl = new Date(row['Tanggal']).toLocaleDateString('id-ID', { day:'numeric', month:'short' });
-        return `<div class="det-row">
-          <span>🧋 ${row['Minuman'] || '-'} ✕${row['Jumlah'] || 1} — ${tgl}</span>
-          <span>${row['Total'] ? rp(row['Total']) : '-'}</span>
+        return `<div class="person-row" id="${pid}" onclick="togglePerson('${pid}')">
+          <div class="person-summary">
+            <div class="ps-left">
+              <div class="ps-name">${nama}</div>
+              <div class="ps-meta">${totalOrders} order · ${totalItem} item</div>
+            </div>
+            <div class="ps-right">
+              <div class="ps-total">${data.total > 0 ? rp(data.total) : '-'}</div>
+              <span class="ps-arr">▾</span>
+            </div>
+          </div>
+          <div class="person-orders">${orderItems}</div>
         </div>`;
       }).join('');
 
-      return `
-        <div class="person-item" onclick="toggleDetail('${detailId}')">
-          <div>
-            <div class="pname">${nama}</div>
-            <div class="pinfo">${data.orders.length} order · ${data.count} item</div>
-          </div>
-          <div class="ptotal">
-            ${data.total > 0 ? rp(data.total) : '-'}
-            <small>tap untuk detail</small>
-          </div>
+      return `<div class="bulan-block">
+        <div class="bulan-head">
+          <span class="bh-label">📅 ${label}</span>
+          <span class="bh-total">${grandTotal > 0 ? rp(grandTotal) : '-'}</span>
         </div>
-        <div class="person-detail" id="${detailId}">
-          ${detailRows}
-        </div>`;
+        <div class="bulan-body">${personRows}</div>
+      </div>`;
     }).join('');
 
-    content.innerHTML = totalBox + `<div class="rekap-list">${items}</div>`;
+    document.getElementById('rekap-root').innerHTML = html;
   }
 
-  function toggleDetail(id) {
-    const el = document.getElementById(id);
-    el.classList.toggle('open');
+  function togglePerson(pid) {
+    document.getElementById(pid).classList.toggle('open');
   }
 </script>
 </body>
