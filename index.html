@@ -367,11 +367,6 @@
     </div>
   </div>
 
-  <div class="field" id="harga-field" style="display:none">
-    <label>Harga Satuan</label>
-    <div style="background:var(--input-bg);border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;font-size:0.95rem;color:var(--accent);font-weight:600;" id="harga-display"></div>
-  </div>
-
   <div class="field">
     <label>Jumlah</label>
     <div class="jumlah-wrapper">
@@ -521,7 +516,7 @@
   }
 
 function updateHarga() {
-    document.getElementById('harga-field').style.display = 'none';
+    // Harga tidak ditampilkan, tapi tetap dihitung saat submit
   }
 
   function ubahJumlah(delta) {
