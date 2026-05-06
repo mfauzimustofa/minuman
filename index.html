@@ -120,10 +120,7 @@
   }
   .qty-btn:hover { background: var(--accent); color: #0a0c12; border-color: var(--accent); }
 
-  .harga-preview {
-    margin-top: 6px; font-size: 0.78rem; color: var(--muted); min-height: 18px;
-  }
-  .harga-preview.show { color: var(--accent); font-weight: 600; }
+
 
   .btn-submit {
     width: 100%; padding: 15px;
@@ -305,6 +302,81 @@
   .empty { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 40px 0; }
   .loading { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 40px 0; animation: pulse 1.2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  /* ── GAME EFFECTS ── */
+  .success-overlay {
+    position: fixed; inset: 0; z-index: 300;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0);
+    pointer-events: none;
+    transition: background 0.3s ease;
+  }
+  .success-overlay.show {
+    pointer-events: auto;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+  }
+  .success-card {
+    background: var(--card); border: 2px solid var(--accent);
+    border-radius: 24px; padding: 40px 28px;
+    text-align: center; max-width: 280px; width: 88%;
+    transform: scale(0.4) translateY(60px);
+    opacity: 0;
+    transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+    box-shadow: 0 0 80px rgba(56,224,123,0.3);
+  }
+  .success-overlay.show .success-card { transform: scale(1) translateY(0); opacity: 1; }
+
+  .success-card .big-icon { font-size: 3.5rem; display: block; margin-bottom: 8px; }
+  .success-card h3 { font-size: 1.1rem; font-weight: 800; color: var(--accent); margin-bottom: 6px; }
+  .success-card .order-info { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+  .success-card .order-info strong { color: var(--text); }
+
+  .xp-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
+  .xp-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--accent); color: #0a0c12;
+    font-size: 0.78rem; font-weight: 800;
+    padding: 6px 14px; border-radius: 50px;
+    animation: popIn 0.4s 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  .streak-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--border); color: var(--warn);
+    font-size: 0.78rem; font-weight: 800;
+    padding: 6px 14px; border-radius: 50px;
+    animation: popIn 0.4s 0.65s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes popIn { 0%{transform:scale(0);opacity:0} 100%{transform:scale(1);opacity:1} }
+
+  .btn-ok {
+    margin-top: 20px; padding: 11px 32px;
+    background: var(--accent); color: #0a0c12;
+    border: none; border-radius: 50px;
+    font-family: inherit; font-size: 0.88rem; font-weight: 800;
+    cursor: pointer; transition: all 0.2s;
+    animation: popIn 0.4s 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  .btn-ok:hover { background: var(--accent2); transform: scale(1.05); }
+
+  /* confetti */
+  .confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 299; overflow: hidden; }
+  .confetti-piece {
+    position: absolute; top: -12px;
+    width: 9px; height: 9px; border-radius: 2px;
+    animation: confettiFall linear forwards;
+  }
+  @keyframes confettiFall {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(105vh) rotate(800deg); opacity: 0; }
+  }
+
+  /* btn shake on error */
+  @keyframes shake {
+    0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)}
+  }
+  .shake { animation: shake 0.4s ease; }
 </style>
 </head>
 <body>
@@ -343,7 +415,7 @@
         <option>Erma</option>
         <option>Mbak Dian</option>
         <option>Mbak Riri</option>
-        <option>Mas Yunan</option>
+        <option>Mbak Mas Yunan</option>
       </select>
     </div>
   </div>
@@ -366,16 +438,15 @@
       </select>
     </div>
     <div id="lainnya-wrap" style="display:none;margin-top:8px">
-      <input type="text" id="minuman-lain" class="input-base" placeholder="Tulis nama minuman..." oninput="updateHargaPreview()">
+      <input type="text" id="minuman-lain" class="input-base" placeholder="Tulis nama minuman...">
     </div>
-    <div class="harga-preview" id="harga-preview"></div>
   </div>
 
   <div class="field">
     <label>Jumlah</label>
     <div class="qty-row">
       <button class="qty-btn" onclick="ubahJumlah(-1)">−</button>
-      <input type="number" id="jumlah" value="1" min="1" max="99" oninput="updateHargaPreview()">
+      <input type="number" id="jumlah" value="1" min="1" max="99">
       <button class="qty-btn" onclick="ubahJumlah(1)">+</button>
     </div>
   </div>
@@ -517,29 +588,11 @@
   function onMinumanChange() {
     const val = document.getElementById('minuman').value;
     document.getElementById('lainnya-wrap').style.display = val === 'Lainnya' ? 'block' : 'none';
-    updateHargaPreview();
-  }
-
-  function updateHargaPreview() {
-    const sel = document.getElementById('minuman').value;
-    const lain = document.getElementById('minuman-lain').value.trim();
-    const minuman = sel === 'Lainnya' ? lain : sel;
-    const jumlah = parseInt(document.getElementById('jumlah').value) || 1;
-    const harga = HARGA[minuman];
-    const prev = document.getElementById('harga-preview');
-    if (harga && minuman) {
-      prev.textContent = `Rp ${harga.toLocaleString('id-ID')} × ${jumlah} = Rp ${(harga*jumlah).toLocaleString('id-ID')}`;
-      prev.className = 'harga-preview show';
-    } else {
-      prev.textContent = '';
-      prev.className = 'harga-preview';
-    }
   }
 
   function ubahJumlah(d) {
     const el = document.getElementById('jumlah');
     el.value = Math.max(1, (parseInt(el.value) || 1) + d);
-    updateHargaPreview();
   }
 
   function showToast(msg, error = false) {
@@ -573,15 +626,13 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tanggal, nama, minuman, jumlah, harga, total })
       });
-      showToast('✅ Order berhasil dikirim!');
+      tampilkanSukses(nama, minuman, jumlah);
       document.getElementById('nama').value = '';
       document.getElementById('minuman').value = '';
       document.getElementById('minuman-lain').value = '';
       document.getElementById('jumlah').value = '1';
       document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
       document.getElementById('lainnya-wrap').style.display = 'none';
-      document.getElementById('harga-preview').textContent = '';
-      document.getElementById('harga-preview').className = 'harga-preview';
       allData = null;
     } catch(e) {
       showToast('❌ Gagal kirim, coba lagi', true);
@@ -704,9 +755,99 @@
     showToast('✅ File berhasil diunduh!');
   }
 
+
+  // ── GAME EFFECTS ──
+  let orderStreak = 0;
+  let totalXP = 0;
+
+  function tampilkanSukses(nama, minuman, jumlah) {
+    orderStreak++;
+    totalXP += 10;
+
+    // Info di card
+    document.getElementById('success-info').innerHTML =
+      `<strong>${nama}</strong> memesan<br><strong>${jumlah > 1 ? jumlah + '× ' : ''}${minuman}</strong>`;
+    document.getElementById('streak-badge').textContent = `🔥 ${orderStreak}x`;
+
+    // Tampilkan overlay
+    document.getElementById('success-overlay').classList.add('show');
+
+    // Confetti
+    buatConfetti();
+
+    // Suara TTS "pesanan dicatat"
+    ucapkan('Pesanan dicatat');
+  }
+
+  function tutupSuccess() {
+    document.getElementById('success-overlay').classList.remove('show');
+    bersihkanConfetti();
+  }
+
+  function ucapkan(teks) {
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(teks);
+    utt.lang = 'id-ID';
+    utt.rate = 0.95;
+    utt.pitch = 1.1;
+    utt.volume = 1;
+    // Coba cari suara Indonesia
+    const voices = speechSynthesis.getVoices();
+    const idVoice = voices.find(v => v.lang.startsWith('id')) || voices.find(v => v.lang.startsWith('ms'));
+    if (idVoice) utt.voice = idVoice;
+    speechSynthesis.speak(utt);
+  }
+  // Preload voices (beberapa browser butuh trigger awal)
+  if (window.speechSynthesis) {
+    speechSynthesis.getVoices();
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+  }
+
+  const CONFETTI_COLORS = ['#38e07b','#22c55e','#ffd166','#ff6b6b','#a78bfa','#38bdf8','#fb923c'];
+  function buatConfetti() {
+    const wrap = document.getElementById('confetti-wrap');
+    wrap.innerHTML = '';
+    for (let i = 0; i < 60; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + '%';
+      el.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+      el.style.width = (6 + Math.random() * 8) + 'px';
+      el.style.height = (6 + Math.random() * 8) + 'px';
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      const dur = 1.2 + Math.random() * 1.6;
+      const delay = Math.random() * 0.5;
+      el.style.animation = `confettiFall ${dur}s ${delay}s linear forwards`;
+      wrap.appendChild(el);
+    }
+  }
+  function bersihkanConfetti() {
+    document.getElementById('confetti-wrap').innerHTML = '';
+  }
+
+  // Shake btn on validation error
+  const origShowToast = showToast;
+
   document.getElementById('overlay').addEventListener('click', function(e) {
     if (e.target === this) tutupLogin();
   });
 </script>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="success-overlay" onclick="tutupSuccess()">
+  <div class="success-card" onclick="event.stopPropagation()">
+    <span class="big-icon">🧋</span>
+    <h3>Pesanan Dicatat!</h3>
+    <div class="order-info" id="success-info"></div>
+    <div class="xp-row">
+      <span class="xp-badge">⚡ +10 XP</span>
+      <span class="streak-badge" id="streak-badge">🔥 1x</span>
+    </div>
+    <button class="btn-ok" onclick="tutupSuccess()">Siap!</button>
+  </div>
+</div>
+<div class="confetti-wrap" id="confetti-wrap"></div>
+
 </body>
 </html>
