@@ -479,18 +479,6 @@ input[type=number]:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(
   </div>
 </div>
 
-<!-- MODAL BAYAR -->
-<div class="modal-bg" id="modal-pay" onclick="closeEditOnBg(event)">
-  <div class="modal">
-    <h3>✅ Tandai Lunas?</h3>
-    <p id="pay-subtitle">Semua order yang belum lunas untuk orang ini di bulan ini akan ditandai sudah dibayar.</p>
-    <div class="modal-acts">
-      <button class="btn-cancel" onclick="closeModal('modal-pay')">Batal</button>
-      <button class="btn-save" onclick="confirmPay()">✅ Lunas</button>
-    </div>
-  </div>
-</div>
-
 <!-- LOGIN -->
 <div class="overlay" id="overlay" onclick="oclick(event)">
   <div class="lbox">
@@ -531,7 +519,7 @@ const AVATARS = ['#1a6b3c','#2563eb','#9333ea','#c2410c','#0891b2','#65a30d','#d
 const PAID_KEY = 'minuman_paid_v2';
 
 let loggedIn = false, cache = null, activeBulan = null;
-let editRowIdx = null, delRowIdx = null, payTarget = null; // {nama, bulanKey}
+let editRowIdx = null, delRowIdx = null;
 
 const $ = id => document.getElementById(id);
 const rp = n => n ? 'Rp ' + Number(n).toLocaleString('id-ID') : '—';
@@ -726,12 +714,12 @@ function renderRekap() {
           <div class="or-meta">
             <span class="or-qty">✕${r.Jumlah||1}</span>
             📅 ${tgl}
-            ${paid ? '<span class="badge-paid">✓ Lunas</span>' : ''}
+            ${paid ? '<span class="badge-paid">✓ Lunas</span>' : '<span class="badge-unpaid">Belum Bayar</span>'}
           </div>
           <div class="or-actions">
             ${paid
-              ? `<button class="btn-mini paid-done">✓ Sudah Lunas</button>`
-              : `<button class="btn-mini pay" onclick="openPay(event,'${n}','${activeBulan}')">✅ Tandai Lunas (Semua)</button>`
+              ? `<button class="btn-mini paid-done" onclick="togglePayItem(event,${ri})">✓ Lunas · Batalkan?</button>`
+              : `<button class="btn-mini pay" onclick="togglePayItem(event,${ri})">✅ Tandai Lunas</button>`
             }
             <button class="btn-mini edit" onclick="openEdit(event,${ri})">✏️ Edit</button>
             <button class="btn-mini del" onclick="openDel(event,${ri},'${r.Nama}','${r.Minuman}')">🗑️</button>
@@ -854,26 +842,28 @@ async function confirmDelete() {
   btn.textContent='Hapus'; btn.disabled=false;
 }
 
-// ── PAY ──
-function openPay(e, nama, bulanKey) {
+// ── PAY PER ITEM ──
+async function togglePayItem(e, ri) {
   e.stopPropagation();
-  payTarget = {nama, bulanKey};
-  $('pay-subtitle').textContent = `Tandai semua order ${nama} di ${getMonthLabel(bulanKey)} sebagai LUNAS?`;
-  $('modal-pay').classList.add('show');
-}
-function confirmPay() {
-  if (!payTarget||!cache) return;
-  const {nama, bulanKey} = payTarget;
-  const [y,m] = bulanKey.split('-');
-  for (let i=0; i<cache.length; i++) {
-    const r = cache[i];
-    if (!r.Tanggal||r.Nama!==nama) continue;
-    const d = new Date(r.Tanggal); if(isNaN(d)) continue;
-    if (d.getFullYear()==+y && d.getMonth()+1==+m) markPaid(i, true);
-  }
-  closeModal('modal-pay');
+  const row = cache[ri];
+  if (!row) return;
+  const nowPaid = isPaid(ri);
+  const newStatus = !nowPaid;
+  const statusText = newStatus ? 'LUNAS' : 'BELUM BAYAR';
+  markPaid(ri, newStatus);
   renderRekap();
-  toast(`✅ ${nama} — semua lunas!`);
+  try {
+    await fetch(GAS, {
+      method: 'POST', mode: 'no-cors',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({action:'pay', rowIndex: ri+2, status: statusText})
+    });
+    toast(newStatus ? `u2705 ${row.Nama} u2014 ${row.Minuman} lunas!` : `u21a9ufe0f Dibatalkan u2014 belum bayar`);
+  } catch {
+    markPaid(ri, nowPaid);
+    renderRekap();
+    toast('u274c Gagal update, coba lagi', 'err');
+  }
 }
 
 // ── HELPERS ──
